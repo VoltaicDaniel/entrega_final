@@ -16,6 +16,7 @@ alto = 650
 listaEnemigo = []
 habilitador = False
 lalo = True
+listaDeDisparo = []
 
 class jugador(pygame.sprite.Sprite):
     def __init__(self):
@@ -46,7 +47,7 @@ class jugador(pygame.sprite.Sprite):
         self.salto_par = True
         self.contadorfun = 0
 
-        self.listaDeDisparo= []
+        
 
 
 
@@ -77,7 +78,7 @@ class jugador(pygame.sprite.Sprite):
 
         miProyectil = Proyectil(x,y,"zonahoria.png",True)
 
-        self.listaDeDisparo.append(miProyectil)
+        listaDeDisparo.append(miProyectil)
 
 
     """ animacion"""
@@ -285,6 +286,7 @@ def goldTraver():
     while True:
         global lalo
         global habilitador
+        global listaDeDisparo
 
         """cuantos frames se ejecutan por segundo"""
         reloj.tick(60)
@@ -363,7 +365,6 @@ def goldTraver():
                     habilitador = True
 
         if  habilitador == False:
-            print ("hola")
             imagenFondo = pygame.image.load("PRINCIPAL.png").convert_alpha()
             imagenFondo = pygame.transform.scale(imagenFondo, (ancho, alto))
             ventana.blit(imagenFondo, (0,0))
@@ -372,7 +373,6 @@ def goldTraver():
         """creando las colisiones """
         """ pinta el jugador en la ventana y la dibuja """
         if habilitador == True:
-            #enJuego = True
             if enJuego == False:
                 imagenFondo = pygame.image.load("INSTRUCCIONES.png").convert_alpha()
                 imagenFondo = pygame.transform.scale(imagenFondo, (ancho, alto))
@@ -392,24 +392,27 @@ def goldTraver():
                     player.rdibujar(ventana)
 
 
-                if len(player.listaDeDisparo) >0:
-                    for x in player.listaDeDisparo:
-                        x.dibujar(ventana)
-                        x.trayectoria()
-                    if x.rect.top < -10:
-                        player.listaDeDisparo.remove(x) #si el proyectil salio de nuesra visa entonces
+                if len(listaDeDisparo) >0:
+                    for l in listaDeDisparo:
+                        l.dibujar(ventana)
+                        l.trayectoria()
+                    if l.rect.top < -10:
+                        listaDeDisparo.remove(l) #si el proyectil salio de nuesra visa entonces
                         #lo eliminamos
 
                     else:
                         #colision
                         for enemigo  in listaEnemigo:
-                            if x.rect.colliderect(enemigo.rect):
-                                listaEnemigo.remove(enemigo)
-                                player.listaDeDisparo.remove(x)
-                                if len(listaEnemigo) == 0:
-                                    CargarEnemigos()
-                                if enemigo.rect > 460 :
-                                    del x
+                            for m in listaDeDisparo:
+                                if m.rect.colliderect(enemigo.rect):
+                                    listaEnemigo.remove(enemigo)
+                                    
+                                    listaDeDisparo.remove(m)
+
+                                    if len(listaEnemigo) == 0:
+                                        CargarEnemigos()
+                                    if enemigo.rect.left > 460 :
+                                        del m
 
 
 
@@ -438,10 +441,10 @@ def goldTraver():
                                 enemigo.listaDeDisparos.remove(x)#si el proyectil salio de nuesra visa entonces
                             #lo eliminamos
                             else:
-                                for disparo in player.listaDeDisparo:
+                                for disparo in listaDeDisparo:
                                     if x.rect.colliderect(disparo.rect):
-                                        player.listaDeDisparo.remove(disparo)
-                                        enemigo.listaDeDisparos.remove(x)
+                                        listaDeDisparo.remove(disparo)
+                                        listaDeDisparos.remove(x)
                         if enemigo.rect.colliderect(player.rect):
                             lalo = False
                         if lalo == False:
