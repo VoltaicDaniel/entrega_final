@@ -201,36 +201,6 @@ class Enemigos(pygame.sprite.Sprite):
         miProyectil = Proyectil(x,y,"disparob.jpg",False)
         self.listaDeDisparos.append(miProyectil)
 
-    def movimientos(self):
-        if self.Contador < 3:
-            self.movimientoLateral()
-        else:
-            self.descenso()
-
-    def descenso(self):
-        if self.MaxDescenso == self.rect.top:
-            self.contador = 0
-            self.MaxDescenso = self.rect.top+ 40
-        else:
-            self.rect.top += 1
-
-
-    def movimientoLateral(self):
-        if self.derecha == True:
-            self.rect.left = self.rect.left + self.velocidad
-            if self.rect.left > self.limiteDerecha:
-                self.derecha = False
-
-                self.contador += 1
-            else:
-                self.rect.left = self.rect.left - self.velocidad
-                if self.rect.left < self.limiteIzquierda:
-                    self.derecha = True
-
-
-
-
-
 
     def dibujar(self,superficie):
         self.imagenDepredador = self.listaImagenes[self.imagenPos]
@@ -239,22 +209,10 @@ class Enemigos(pygame.sprite.Sprite):
 
 def CargarEnemigos():
         posx = 100
-        for x in range(1,5):
-            enemigo = Enemigos(posx,100,40,'aguila_juego.png','veneno.png')
-            listaEnemigo.append(enemigo)
-
-        posx = posx +300
-
         for x in range(1):
-            enemigo1 = Enemigos(posx,100,40,'aguila_juego.png','veneno.png')
-            listaEnemigo.append(enemigo1)
-        posx = posx +300
-
-        for x in range(1):
-            enemigo = Enemigos(posx,100,40,'aguila_juego.png','veneno.png')
+            enemigo = Enemigos(posx, 300, 100,'aguila.png','veneno.png')
             listaEnemigo.append(enemigo)
-
-        posx = posx +300
+            posx += 300
 
 
 
@@ -419,12 +377,15 @@ def goldTraver():
                 if len(listaEnemigo) > 0:
 
                     for enemigo in listaEnemigo:#coge cada enemigo
+                        
+                        if enemigo.rect.top > 500 or enemigo.rect.top < 300:
+                             enemigo.rect.top = random.randrange(50, 500)
 
                         enemigo.rect.left -= 5#se mueve a la izquierda
 
                         if enemigo.rect.left == 0:#los limites
                             enemigo.rect.left = 1000
-                            enemigo.rect.top += 70#que
+                            enemigo.rect.top += random.randrange(-300 ,300)
 
                         enemigo.dibujar(ventana)
 
