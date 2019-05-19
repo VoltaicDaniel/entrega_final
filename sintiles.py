@@ -326,7 +326,7 @@ def goldTraver():
                 if evento.key == 273:
                     player.salto = True
                     if player.contadorfun == 0:
-                        player.rect.y -= 80
+                        player.rect.y -= 250
                         player.contadorfun += 1
 
                         """ jugador dispara"""
@@ -354,7 +354,7 @@ def goldTraver():
             if evento.type ==pygame.KEYUP:
                 if evento.key == 273:
                     player.contadorfun -= 1
-                    player.rect.y += 80
+                    player.rect.y += 250
                 elif evento.key == 13:
                     imagenFondo = pygame.image.load("fondo.png").convert_alpha()
                     imagenFondo = pygame.transform.scale(imagenFondo, (ancho, alto))
@@ -381,7 +381,7 @@ def goldTraver():
                     imagenFondo = pygame.image.load("GAMEOVER.png").convert_alpha()
                     imagenFondo = pygame.transform.scale(imagenFondo, (ancho, alto))
                     ventana.blit(imagenFondo,(0,0))
-                    
+
             if enJuego == True:
                 imagenFondo = pygame.image.load("fondo.png").convert_alpha()
                 imagenFondo = pygame.transform.scale(imagenFondo, (ancho, alto))
@@ -414,7 +414,7 @@ def goldTraver():
 
 
                 if len(listaEnemigo) > 0:
-                        
+
                     for enemigo in listaEnemigo:#coge cada enemigo
 
                         enemigo.rect.left -= 5#se mueve a la izquierda
@@ -422,7 +422,7 @@ def goldTraver():
                         if enemigo.rect.left == 0:#los limites
                             enemigo.rect.left = 1000
                             enemigo.rect.top += 70#que
-    
+
                         enemigo.dibujar(ventana)
 
                         if enemigo.rect.colliderect(player.rect):
